@@ -1,0 +1,4 @@
+{
+	"cmd_path": "C:\\Windows\\system32\\cmd.exe",
+	"desktop_path": "C:\\Users\\bleachin\\Desktop", // 将文件导出到哪个文件夹下，路径最后面不要加\\
+}

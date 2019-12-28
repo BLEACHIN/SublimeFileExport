@@ -1,0 +1,6 @@
+[
+  { "caption": "-" },
+  { "caption": "Open This Folder", "command": "open_folder", "args": {"paths":[]}},
+  { "caption": "Export This File", "command": "export_file", "args": {"paths":[]}},
+  { "caption": "-", "id": "end" }
+]
