@@ -45,7 +45,7 @@ class OpenFolderCommand(BleachinBashCommand):
     def run(self, paths=None):
         BleachinBashCommand.run(self, paths)
 
-# 导出文件到桌面，类似svn export
+# 导出文件到桌面，类似svn export，包含目录
 class ExportFileCommand(sublime_plugin.WindowCommand):
     def run(self, paths=None, isHung=False):            
         dir = get_focused_dir_or_file(paths) # 文件的绝对路径，包括文件名
@@ -83,6 +83,39 @@ class ExportFileCommand(sublime_plugin.WindowCommand):
         # os.mkdir(target_path) # 创建目录，如果该目录已经存在，则引发FileExistsError。
         os.makedirs(target_path, mode=0o777, exist_ok=True) # 递归创建目录，类似mkdir -p
         shutil.copy(dir, target_path) # 复制文件到目标目录，原文件存在则覆盖
+
+        # sublime.message_dialog('Success')
+        sublime.status_message('Success') # 最下方的status bar显示成功信息
+
+# 导出文件到桌面，类似svn export，只导出文件
+class ExportOnlyFileCommand(sublime_plugin.WindowCommand):
+    def run(self, paths=None, isHung=False):            
+        dir = get_focused_dir_or_file(paths) # 文件的绝对路径，包括文件名
+        print(get_current_dir(self.window)) 
+        print(dir) 
+
+        if not os.path.isfile(dir):
+            sublime.error_message(''.join(['not a file']))
+            raise MyError("请选择一个文件")
+
+        settings = sublime.load_settings('Bleachin.sublime-settings')
+        cmd_path = settings.get('cmd_path')
+        desktop_path = settings.get('desktop_path') # 导出的目标路径
+        top_path = get_current_dir(self.window) # 获取顶级目录路径
+
+        if not os.path.isfile(cmd_path):
+            sublime.error_message(''.join(['can\'t find cmd.exe (cmd),',
+                ' please config setting file', '\nSettings - User']))
+            raise MyError("未找到cmd.exe文件，请重新配置Settings - User文件")
+
+        if not os.path.isdir(desktop_path):
+            sublime.error_message(''.join(['can\'t find this dir,',
+                ' please config setting file', '\nSettings - User']))
+            raise MyError("未找到该目录，请重新配置Settings - User文件")
+
+        print(desktop_path)
+
+        shutil.copy(dir, desktop_path) # 复制文件到目标目录，原文件存在则覆盖
 
         # sublime.message_dialog('Success')
         sublime.status_message('Success') # 最下方的status bar显示成功信息

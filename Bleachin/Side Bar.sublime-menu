@@ -1,6 +1,7 @@
 [
   { "caption": "-" },
   { "caption": "Open This Folder", "command": "open_folder", "args": {"paths":[]}},
-  { "caption": "Export This File", "command": "export_file", "args": {"paths":[]}},
+  { "caption": "Export This File (include dir)", "command": "export_file", "args": {"paths":[]}},
+  { "caption": "Export This File (only file)", "command": "export_only_file", "args": {"paths":[]}},
   { "caption": "-", "id": "end" }
 ]
